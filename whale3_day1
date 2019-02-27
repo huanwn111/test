@@ -39,17 +39,19 @@
 
 4.一元线性回归的参数求解公式推导
 
-![](img_url)
+![image](https://github.com/huanwn111/test/blob/master/001.png)
 图1：https://github.com/huanwn111/test/blob/master/001.png
 
+![image](https://github.com/huanwn111/test/blob/master/002.png)
 图2：https://github.com/huanwn111/test/blob/master/002.png
 
-
+![image](https://github.com/huanwn111/test/blob/master/003.png)
 图3：https://github.com/huanwn111/test/blob/master/003.png
 
 
 5. 多元线性回归的参数求解公式推导
 
+![image](https://github.com/huanwn111/test/blob/master/004.png)
 图4：https://github.com/huanwn111/test/blob/master/004.png
 更多参考：https://blog.csdn.net/wx_blue_pig/article/details/79791906
 
