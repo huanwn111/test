@@ -39,6 +39,12 @@
 
 4.一元线性回归的参数求解公式推导
 
+y = wx+b
+#这个就是一元线性回归公式，只有一个输入x
+
+5. 多元线性回归的参数求解公式推导
+
+#以下就是多元线性回归，输入多个x？
 ![image](https://github.com/huanwn111/test/blob/master/001.png)
 图1：https://github.com/huanwn111/test/blob/master/001.png
 
@@ -49,8 +55,8 @@
 图3：https://github.com/huanwn111/test/blob/master/003.png
 
 
-5. 多元线性回归的参数求解公式推导
 
+#以下是？
 ![image](https://github.com/huanwn111/test/blob/master/004.png)
 图4：https://github.com/huanwn111/test/blob/master/004.png
 更多参考：https://blog.csdn.net/wx_blue_pig/article/details/79791906
