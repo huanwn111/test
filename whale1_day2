@@ -17,9 +17,14 @@
 
 
 3、逻辑回归损失函数推导及优化
+
 把sigmoid函数代入损失函数化解，引入最大似然函数概念，来最大化样本概率。
 优化：为了计算方便，等式两边取对数，变成对数似然，使累乘变为累加，降低运算复杂度。
+
 推导如下图：
+https://github.com/huanwn111/test/blob/master/logic.png
+![image](https://github.com/huanwn111/test/blob/master/logic.png)
+
 
 
 4、 正则化与模型评估指标
