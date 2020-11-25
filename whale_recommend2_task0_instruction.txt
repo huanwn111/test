@@ -1,0 +1,65 @@
+一、主题介绍：
+
+新闻推荐场景下的用户行为预测
+
+以新闻APP中新闻推荐为背景，根据用户历史浏览点击新闻文章数据信息预测用户未来点击行为（数据把最后一次点击行为做了剔除，给参赛选手预测）。
+
+提供学习资料：推荐系统基础、通用流程和baseline方案，文字+视频直播。
+
+任务分解：Task01赛题理解，Task02数据分析，Task03多路召回，Task04特征工程，Task05排序模型+模型融合
+
+二、数据描述：
+
+数据来自某新闻APP平台用户交互数据，30万用户，300万次点击，36万篇不同类别文章，各文章有对应的embedding向量。训练集为抽取的20万用户点击日志数据。测试集A，5万用户点击日志数据。测试集B，5万用户点击日志数据。
+
+train_click_log.csv 训练集用户点击日志
+testA_click_log.csv：测试集用户点击日志
+articles.csv：新闻文章信息数据表
+articles_emb.csv：新闻文章embedding向量表示
+sample_submit.csv：提交样例文件
+
+字段表
+
+Field	Description
+user_id	用户id
+click_article_id	点击文章id
+click_timestamp	点击时间戳
+click_environment	点击环境
+click_deviceGroup	点击设备组
+click_os	点击操作系统
+click_country	点击城市
+click_region	点击地区
+click_referrer_type	点击来源类型
+article_id	文章id，与click_article_id相对应
+category_id	文章类型id
+created_at_ts	文章创建时间戳
+words_count	文章字数
+emb_1,emb_2,…,emb_249	文章embedding向量表示
+
+结果提交 sample_submit.csv 格式
+
+user_id,article_1,article_2,article_3,article_4  ,article_5
+
+   200000,1  ,2,3,4,5
+   
+   200001,1  ,2,3,4,5
+   
+   200002,1  ,2,3,4,5
+   
+   200003,1,2,3,4,5
+
+user_id为用户id, article_1,article_2,article_3,article_4,article_5为预测用户点击新闻文章Top5的article_id依概率从高到低排序
+
+评分方式：
+对选手提交的表格中的每个用户计算用户得分，再计算平均分。
+计分方式：如果选手对该user的预测结果predict k命中该user的最后一条购买数据则s(user,k)=1; 否则s(user,k)=0　
+
+Baseline方案：
+见notebook或视频。
+
+
+
+
+
+
+
