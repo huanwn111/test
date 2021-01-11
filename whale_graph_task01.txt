@@ -1,0 +1,161 @@
+一、知识图谱简介
+
+知识图谱本质上是语义网络（Semantic Network）的知识库。
+从实际应用的角度出发其实可以简单地把知识图谱理解成多关系图（Multi-relational Graph）。
+
+图（Graph）是由节点（Vertex）和边（Edge）来构成，多关系图一般包含多种类型的节点和多种类型的边。实体（节点）指的是现实世界中的事物比如人、地名、概念、药物、公司等，关系（边）则用来表达不同实体之间的某种联系，比如人-“居住在”-北京、张三和李四是“朋友”、逻辑回归是深度学习的“先导知识”等等。
+
+Schema
+限定待加入知识图谱数据的格式；相当于某个领域内的数据模型，包含了该领域内有意义的概念类型以及这些类型的属性。
+
+ 人工智能的目标为了让机器具备像人一样理性思考及做事的能力 -> 在符号主义的引领下，知识工程（核心内容即建设专家系统）取得了突破性的进展 知识表示是一个非常重要的任务 -> 而知识图谱又恰恰是知识表示的重要一环。
+
+
+二、怎么构建知识图谱呢
+
+第一种：业务本身的数据，数据库表并以结构化的方式存储，简单预处理可用。
+第二种：网络上公开、抓取的数据。这些数据通常是以网页的形式存在所以是非结构化的数据，一般需要借助于自然语言处理等技术来提取出结构化信息。
+
+2.2 信息抽取的难点在哪里？
+信息抽取的难点在于处理非结构化数据
+
+2.3 构建知识图谱所涉及的技术？
+主要涉及以下几个方面的自然语言处理技术：
+实体命名识别（Name Entity Recognition）
+关系抽取（Relation Extraction）
+实体统一（Entity Resolution）
+指代消解（Coreference Resolution）
+...
+
+2.4、知识图谱的具体构建技术是什么？
+
+实体命名识别（英语：Named Entity Recognition），简称NER：
+就是从文本里提取出实体并对每个实体做分类/打标签，就是从文本里提取出实体并对每个实体做分类/打标签
+比如实体-“NYC”，并标记实体类型为 “Location”；我们也可以从中提取出“Virgil's BBQ”，并标记实体类型为“Restarant”。
+
+关系抽取（英语：Relation Extraction），简称 RE：
+通过关系抽取技术，把实体间的关系从文本中提取出来，
+比如实体“hotel”和“Hilton property”之间的关系为“in”；“hotel”和“Time Square”的关系为“near”等等。
+
+实体统一（Entity Resolution）：
+对于有些实体写法上不一样，但其实是指向同一个实体；
+比如“NYC”和“New York”表面上是不同的字符串，但其实指的都是纽约这个城市，需要合并。
+实体统一不仅可以减少实体的种类，也可以降低图谱的稀疏性（Sparsity）；
+
+指代消解（Disambiguation）：
+文本中出现的“it”, “he”, “she”这些词到底指向哪个实体，如本文里的两个"it"都指向“hotel”这个实体。
+
+三、知识图谱的存储
+RDF:
+设计原则，数据的易发布以及共享，以三元组的方式来存储数据而且不包含属性信息。
+可用Jena
+
+图数据库：
+重点放在了高效的图查询和搜索上，一般以属性图为基本的表示形式，所以实体和关系可以包含属性，这就意味着更容易表达现实的业务场景。
+可用Neo4
+
+四、Neo4J 介绍与安装
+官网下载
+neo4j.bat console启动
+
+查看http://127.0.0.1:7474/browser/
+
+
+4.5 Cypher查询语言：
+类似SQL，对点模式（ad-hoc）查询
+创建、更新、删除节点和关系
+通过模式匹配来查询和修改节点和关系 - 管理索引和约束等
+
+五、Neo4J 实战
+
+实例：
+目标要创建以下三种关系，
+Person-Friends-PERSON
+Person-Married-PERSON
+Person-Born_in-Location
+
+5.2 创建节点：
+人物：
+CREATE (n:Person{name:'John'}) RETURN n
+CREATE (n:Person{name:'阿珠'}) RETURN n
+CREATE (n:Person{name:'阿紫'}) RETURN n
+CREATE (n:Person{name:'乔峰'}) RETURN n
+
+地点：
+CREATE (n:Location{city:'尚志',state:'黑龙江'}) RETURN n
+CREATE (n:Location{city:'固安',state:'河北'}) RETURN n
+CREATE (n:Location{city:'石家庄',state:'河北'}) RETURN n
+CREATE (a:Location{city:'青石桥',state:'大理'})
+CREATE (a:Location{city:'契丹某市',state:'契丹'})
+
+5.3 创建关系：
+1.人物关系：
+MATCH(a:Person{name:'阿珠'}),(b:Person{name:'阿紫'})
+MERGE (a)-[:姐姐]->(b)
+
+MATCH(a:Person{name:'乔峰'}),(b:Person{name:'阿珠'})
+MERGE (a)-[:男友]->(b)
+
+2.关系增加属性：
+
+MATCH(a:Person{name:'乔峰'}),(b:Person{name:'阿珠'})
+MERGE (a)-[:男友 {since:1500}]->(b)
+
+MATCH(a:Person{name:'阿珠'}),(b:Person{name:'阿紫'})
+MERGE (a)-[:姐姐 {since:1480}]->(b)
+
+MATCH(a:Person{name:'乔峰'}),(b:Person{name:'阿紫'})
+MERGE (a)-[:姐夫 {since:1500}]->(b)
+
+5.4 创建 出生地关系：
+MATCH (a:Person{name:'乔峰'}),(b:Location{city:'契丹某地'}) MERGE (a) - [:出生于{year:1450}] ->(b)
+
+MATCH (a:Person{name:'阿珠'}),(b:Location{city:'青石桥'}) MERGE (a)-[:死于{year:1505}]->(b)
+
+创建节点的时候就建好关系：
+CREATE (a:Person{name:'段正淳'})-[r:父亲]->(b:Person{name:'阿朱'}) return a,b
+
+5.5 图数据库查询
+查询死于青石桥的人
+MATCH (a:Person)-[:死于]->(b:Location{city:'青石桥'}) RETURN a,b
+
+查询所有对外有关系的节点：
+MATCH (a) -- () RETURN a
+
+查询所有有关系的节点：
+MATCH (a) -[r] ->() RETURN a.name
+//MATCH (a)-[r]-() RETURN a.name, type(r)
+
+查询所有对外有关系的节点，以及关系类型：
+MATCH (a)-[r]-() RETURN a.name, type(r)
+
+查询所有父女关系的节点：
+MATCH (n)-[:`父亲`]-() RETURN n
+
+查找某人的朋友的朋友:
+MATCH (a:Person{name:'乔峰'}) -[r1:男友]-()-[r2:`姐姐`]-(girlfriends_sister) RETURN girlfriends_sister.name AS gfsName
+
+5.6 删除和修改：
+
+增加/修改节点的属性：
+MATCH (a:Person{name:'阿珠'}) SET a.age = 18
+MATCH (a:Person{name:'阿紫'}) SET a.age = 15
+MATCH (a:Person{name:'乔峰'}) SET a.age = 23
+
+删除节点的属性REMOVE：
+
+MATCH (a:Person{name:'乔峰'}) SET a.test = '后加测试'
+MATCH (a:Person{name:'乔峰'}) REMOVE a.test
+
+删除节点DELETE，单个节点，没有关系的可用这种方法删除：
+MATCH (a:Location{city:'尚志'}) DELETE a
+
+删除有关系的节点：
+MATCH (a:Person {name:'段正淳'}) -[rel]-(b:Person{name:'阿朱'}) DELETE a,b,rel
+
+删除重复关系与节点，参考：
+http://www.voidcn.com/article/p-dgrtcapp-buz.html
+
+以下见python文件
+六、通过 Python 操作 Neo4j
+七、通过csv文件批量导入图数据
