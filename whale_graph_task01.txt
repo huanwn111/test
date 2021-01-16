@@ -158,4 +158,6 @@ http://www.voidcn.com/article/p-dgrtcapp-buz.html
 
 以下见python文件
 六、通过 Python 操作 Neo4j
+https://github.com/huanwn111/test/blob/master/whale_graph_task01_2.py
+
 七、通过csv文件批量导入图数据
