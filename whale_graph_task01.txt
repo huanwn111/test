@@ -161,3 +161,31 @@ http://www.voidcn.com/article/p-dgrtcapp-buz.html
 https://github.com/huanwn111/test/blob/master/whale_graph_task01_2.py
 
 七、通过csv文件批量导入图数据
+注意导之前有多库共存的注意环境变量分别设置
+如：NEO4J_HOME_DISEASE NEO4J_HOME_IMAGE等
+path中 %NEO4J_HOME_DISEASE\bin%
+%NEO4J_HOME_IMAGE\bin%
+
+csv文件批量导入只能导到全新的库，不能给已有的库导数据？
+另外，csv文件要用excel另存为csv，要utf-8格式
+如：
+unique_id：ID	name	node_type:LABEL	property
+20		虚竹	Person		name
+21		梦姑	Person		name
+22		灵鹫宫	Location		city
+
+#注意上面:LABEL 要写，Person后面的name关联列名name，灵鹫宫地名新起一列试下city 
+unique_id：ID	name	city	node_type:LABEL	property
+20		虚竹		Person		name
+21		梦姑		Person		name
+22			灵鹫宫	Location		city
+
+放在import文件夹下，
+
+运行导入命令
+进到bin目录，运行以下命令
+neo4j-admin import --nodes=D:/phGraph/neo4j-whale/import/nodes.csv --delimiter=, --database=graphWhale2.db
+参考：
+https://blog.csdn.net/weixin_41104835/article/details/88862858
+https://github.com/datawhalechina/team-learning-nlp/blob/master/KnowledgeGraph_Basic/task01.md
+
